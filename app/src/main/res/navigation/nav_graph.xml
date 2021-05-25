@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/HomeFragment">
+
+    <fragment
+        android:id="@+id/HomeFragment"
+        android:name="com.example.smarthomesmartsecuritysystem.HomeFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_HomeFragment_to_LivingRoomFragment"
+            app:destination="@id/LivingRoomFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_RoomOneFragment"
+            app:destination="@id/RoomOneFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_RoomTwoFragment"
+            app:destination="@id/RoomTwoFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_KitchenFragment"
+            app:destination="@id/KitchenFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_outsideLightFragment"
+            app:destination="@id/OutsideLightFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/LivingRoomFragment"
+        android:name="com.example.smarthomesmartsecuritysystem.LivingRoomFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_living_room">
+
+        <action
+            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/HomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/RoomOneFragment"
+        android:name="com.example.smarthomesmartsecuritysystem.RoomOneFragment"
+        android:label="@string/third_fragment_label"
+        tools:layout="@layout/fragment_room_one" />
+    <fragment
+        android:id="@+id/RoomTwoFragment"
+        android:name="com.example.smarthomesmartsecuritysystem.RoomTwoFragment"
+        android:label="@string/forth_fragment_label"
+        tools:layout="@layout/fragment_room_two" />
+    <fragment
+        android:id="@+id/KitchenFragment"
+        android:name="com.example.smarthomesmartsecuritysystem.KitchenFragment"
+        android:label="@string/fifth_fragment_label"
+        tools:layout="@layout/fragment_kitchen" />
+    <fragment
+        android:id="@+id/OutsideLightFragment"
+        android:name="com.example.smarthomesmartsecuritysystem.OutsideLightFragment"
+        android:label="@string/sixth_fragment_label"
+        tools:layout="@layout/fragment_outside_light" />
+</navigation>

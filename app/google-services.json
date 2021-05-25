@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "109556533755",
+    "firebase_url": "https://smarthomesecuritysystemapps-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "smarthomesecuritysystemapps",
+    "storage_bucket": "smarthomesecuritysystemapps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109556533755:android:d7cf731a4c59776877235e",
+        "android_client_info": {
+          "package_name": "com.example.smarthomesmartsecuritysystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109556533755-108pvg2j5fr365sdm3p95vq3nboa81se.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5eTQzJZidzkSrpnrwLyWDZ7lyWLAC1CY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109556533755-108pvg2j5fr365sdm3p95vq3nboa81se.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
