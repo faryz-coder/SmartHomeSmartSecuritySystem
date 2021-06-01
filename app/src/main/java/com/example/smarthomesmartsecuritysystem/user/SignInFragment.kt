@@ -52,12 +52,17 @@ class SignInFragment : Fragment() {
                         val u_email = it.getField<String>("email").toString()
                         if (u_email == email.text.toString()) {
                             val pass = it.getField<String>("password").toString()
+                            val bl = it.getField<String>("block").toString()
                             if (pass == password.text.toString()) {
                                 Log.d("bomoh", "start")
-                                val intent = Intent(root.context, MainActivity::class.java)
-                                intent.putExtra("email", email.text.toString())
-                                startActivity(intent)
-                                requireActivity().finish()
+                                if (bl != "yes"  || bl == "null") {
+                                    val intent = Intent(root.context, MainActivity::class.java)
+                                    intent.putExtra("email", email.text.toString())
+                                    startActivity(intent)
+                                    requireActivity().finish()
+                                } else {
+                                    Snackbar.make(v, "Account Blocked!", Snackbar.LENGTH_SHORT).show()
+                                }
                             } else {
                                 Snackbar.make(v, "Wrong Password or Email", Snackbar.LENGTH_SHORT).show()
                             }

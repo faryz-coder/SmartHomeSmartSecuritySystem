@@ -24,10 +24,10 @@ import com.google.firebase.ktx.Firebase
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
+@SuppressLint("UseSwitchCompatOrMaterialCode")
 class LivingRoomFragment : Fragment() {
     private val database = Firebase.database
 
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -88,16 +88,11 @@ class LivingRoomFragment : Fragment() {
         return root
     }
 
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val switch1 : Switch = view.findViewById(R.id.lr_switch1)
         val switch2 : Switch = view.findViewById(R.id.lr_switch2)
         val switch3 : Switch = view.findViewById(R.id.lr_switch3)
-
-//        view.findViewById<Button>(R.id.button_second).setOnClickListener {
-//            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-//        }
 
         switch1.setOnCheckedChangeListener { _, isChecked ->
             val myRef = database.getReference("LivingRoom/switch1")

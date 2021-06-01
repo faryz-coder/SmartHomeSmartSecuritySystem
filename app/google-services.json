@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:109556533755:android:d7cf731a4c59776877235e",
+        "mobilesdk_app_id": "1:109556533755:android:73b8f6006a84ebcb77235e",
         "android_client_info": {
           "package_name": "com.example.smarthomesmartsecuritysystem"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "109556533755-nfv7norr1brs693074fqcmu4sk93klej.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.smarthomesmartsecuritysystem",
+            "certificate_hash": "af0883246cb0637f55f9345e67e6cc87a41ec8e1"
+          }
+        },
         {
           "client_id": "109556533755-108pvg2j5fr365sdm3p95vq3nboa81se.apps.googleusercontent.com",
           "client_type": 3
