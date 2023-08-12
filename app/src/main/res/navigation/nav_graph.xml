@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_HomeFragment_to_outsideLightFragment"
             app:destination="@id/OutsideLightFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/LivingRoomFragment"
@@ -56,4 +59,9 @@
         android:name="com.example.smarthomesmartsecuritysystem.OutsideLightFragment"
         android:label="@string/sixth_fragment_label"
         tools:layout="@layout/fragment_outside_light" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.smarthomesmartsecuritysystem.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
