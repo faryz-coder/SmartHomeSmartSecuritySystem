@@ -89,10 +89,5 @@ class RoomTwoFragment : Fragment() {
                 myRef.setValue(0)
             }
         }
-
-        view.findViewById<ImageView>(R.id.imageButton4).setOnClickListener {
-            it.findNavController().popBackStack()
-        }
-
     }
 }

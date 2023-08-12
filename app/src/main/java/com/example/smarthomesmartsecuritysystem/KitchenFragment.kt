@@ -95,9 +95,5 @@ class KitchenFragment : Fragment() {
                 myRef.setValue(0)
             }
         }
-
-        view.findViewById<ImageView>(R.id.imageButton3).setOnClickListener {
-            it.findNavController().popBackStack()
-        }
     }
 }

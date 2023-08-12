@@ -90,9 +90,5 @@ class OutsideLightFragment : Fragment() {
                 myRef.setValue(0)
             }
         }
-
-        view.findViewById<ImageView>(R.id.imageButton5).setOnClickListener {
-            it.findNavController().popBackStack()
-        }
     }
 }

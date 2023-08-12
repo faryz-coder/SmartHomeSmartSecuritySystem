@@ -8,14 +8,6 @@
     android:padding="20dp"
     tools:context=".OutsideLightFragment">
 
-    <ImageButton
-        android:id="@+id/imageButton5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="?attr/actionModeCloseDrawable" />
-
     <Switch
         android:id="@+id/ol_switch2"
         android:layout_width="wrap_content"
@@ -61,13 +53,12 @@
         android:id="@+id/tv_title6"
         android:layout_width="221dp"
         android:layout_height="62dp"
-        android:layout_marginTop="8dp"
         android:fontFamily="@font/indigo_daisy"
         android:text="Outside Lights"
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton5" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button5"

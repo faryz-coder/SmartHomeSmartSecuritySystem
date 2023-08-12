@@ -120,9 +120,5 @@ class LivingRoomFragment : Fragment() {
                 myRef.setValue(0)
             }
         }
-
-        view.findViewById<ImageView>(R.id.imageButton).setOnClickListener {
-            it.findNavController().popBackStack()
-        }
     }
 }

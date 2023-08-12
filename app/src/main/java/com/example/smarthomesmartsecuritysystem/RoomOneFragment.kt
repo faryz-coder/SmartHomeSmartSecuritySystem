@@ -93,9 +93,5 @@ class RoomOneFragment : Fragment() {
                 myRef.setValue(0)
             }
         }
-
-        view.findViewById<ImageView>(R.id.imageButton2).setOnClickListener {
-            it.findNavController().popBackStack()
-        }
     }
 }
