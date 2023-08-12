@@ -2,6 +2,7 @@ package com.example.smarthomesmartsecuritysystem
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Log.d
 import android.view.Gravity
 import android.view.Menu
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         username = intent.getStringExtra("email").toString()
         var viewModel = ViewModelProvider(this).get(loginViewModel::class.java)
@@ -64,7 +66,10 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                Log.d("MainActivity", "settings clicked!")
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
