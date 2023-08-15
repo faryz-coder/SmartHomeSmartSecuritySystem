@@ -5,15 +5,16 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.example.smarthomesmartsecuritysystem.R
-import kotlin.reflect.KFunction0
+import kotlin.reflect.KFunction2
 
 // Since we are using the same methods in more than one Activity, better give them their own file.
 object BiometricPromptUtils {
     private const val TAG = "BiometricPromptUtils"
     fun createBiometricPrompt(
         activity: FragmentActivity,
-        processSuccess: (BiometricPrompt.AuthenticationResult) -> Unit,
-        processFailed: KFunction0<Unit>
+        processSuccess: KFunction2<BiometricPrompt.AuthenticationResult, () -> Unit, Unit>,
+        onSuccess: () -> Unit,
+        processFailed: () -> Unit
     ): BiometricPrompt {
         val executor = ContextCompat.getMainExecutor(activity)
 
@@ -22,19 +23,19 @@ object BiometricPromptUtils {
             override fun onAuthenticationError(errCode: Int, errString: CharSequence) {
                 super.onAuthenticationError(errCode, errString)
                 Log.d(TAG, "errCode is $errCode and errString is: $errString")
-                processFailed()
+                processFailed.invoke()
             }
 
             override fun onAuthenticationFailed() {
                 super.onAuthenticationFailed()
                 Log.d(TAG, "User biometric rejected.")
-                processFailed()
+                processFailed.invoke()
             }
 
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                 super.onAuthenticationSucceeded(result)
                 Log.d(TAG, "Authentication was successful")
-                processSuccess(result)
+                processSuccess(result, onSuccess)
             }
         }
         return BiometricPrompt(activity, executor, callback)
@@ -43,9 +44,7 @@ object BiometricPromptUtils {
     fun createPromptInfo(activity: FragmentActivity): BiometricPrompt.PromptInfo =
         BiometricPrompt.PromptInfo.Builder().apply {
             setTitle(activity.getString(R.string.prompt_info_title))
-            setSubtitle(activity.getString(R.string.prompt_info_subtitle))
-            setDescription(activity.getString(R.string.prompt_info_description))
             setConfirmationRequired(false)
-            setNegativeButtonText(activity.getString(R.string.prompt_info_use_app_password))
+            setNegativeButtonText("Cancel")
         }.build()
 }

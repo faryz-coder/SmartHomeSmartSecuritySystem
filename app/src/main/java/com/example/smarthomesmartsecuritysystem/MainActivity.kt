@@ -1,6 +1,8 @@
 package com.example.smarthomesmartsecuritysystem
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.util.Log.d
@@ -27,21 +29,32 @@ class MainActivity : AppCompatActivity() {
     var username : String? = null
     val db = Firebase.firestore
     private lateinit var navController: NavController
+    private lateinit var sharedPref: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        sharedPref =
+            this.getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE)
+                ?: return
+
         navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         username = intent.getStringExtra("email").toString()
-        var viewModel = ViewModelProvider(this).get(loginViewModel::class.java)
+        var viewModel = ViewModelProvider(this)[loginViewModel::class.java]
 //        viewModel.id = "admin"
 //        username = "admin"
         viewModel.id = username
+        viewModel.startObserving(sharedPref)
+
+        viewModel.sharedPreferenceData.observe(this) { newValue ->
+            viewModel.isBiometricActive = newValue
+        }
 
         // Check if acc blocked
         val docRef = db.collection("user").document(username.toString())
@@ -76,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_settings -> {
                 Log.d("MainActivity", "settings clicked!")
-                navController.navigate(R.id.action_HomeFragment_to_settingsFragment)
+                navController.navigate(R.id.settingsFragment)
                 return true
             }
             R.id.action_logout -> {

@@ -2,7 +2,6 @@ package com.example.smarthomesmartsecuritysystem.user
 
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.getIntent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -20,8 +19,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.smarthomesmartsecuritysystem.MainActivity
 import com.example.smarthomesmartsecuritysystem.R
-import com.example.smarthomesmartsecuritysystem.utils.biometric.BiometricPromptUtils
-import com.example.smarthomesmartsecuritysystem.utils.biometric.BiometricUser
+import com.example.smarthomesmartsecuritysystem.utils.biometric.BiometricHandler
 import com.example.smarthomesmartsecuritysystem.utils.biometric.CIPHERTEXT_WRAPPER
 import com.example.smarthomesmartsecuritysystem.utils.biometric.CryptographyManager
 import com.example.smarthomesmartsecuritysystem.utils.biometric.SHARED_PREFS_FILENAME
@@ -114,7 +112,8 @@ class SignInFragment : Fragment() {
                         }
                     } else {
                         // proceed with biometric authentication
-                        showBiometricPromptForDecryption()
+                        BiometricHandler(requireContext()).showBiometricPromptForDecryption(requireActivity(),
+                            { onBiometricSuccess() }, { biometricFailed() })
                     }
                 }
         }
@@ -126,43 +125,13 @@ class SignInFragment : Fragment() {
         return root
     }
 
-    private fun showBiometricPromptForDecryption() {
-        ciphertextWrapper?.let { textWrapper ->
-            val secretKeyName = getString(R.string.secret_key_name)
-            val cipher = cryptographyManager.getInitializedCipherForDecryption(
-                secretKeyName, textWrapper.initializationVector
-            )
-            biometricPrompt =
-                BiometricPromptUtils.createBiometricPrompt(
-                    requireActivity(),
-                    ::decryptServerTokenFromStorage,
-                    ::biometricFailed
-                )
-            val promptInfo = BiometricPromptUtils.createPromptInfo(requireActivity())
-            biometricPrompt.authenticate(promptInfo, BiometricPrompt.CryptoObject(cipher))
-        }
-    }
+    private fun onBiometricSuccess() {
+        val savedEmail = sharedPref.getString("email", "")
 
-    private fun decryptServerTokenFromStorage(authResult: BiometricPrompt.AuthenticationResult) {
-        ciphertextWrapper?.let { textWrapper ->
-            authResult.cryptoObject?.cipher?.let {
-                val plaintext =
-                    cryptographyManager.decryptData(textWrapper.ciphertext, it)
-                BiometricUser.token = plaintext
-                // Now that you have the token, you can query server for everything else
-                // the only reason we call this fakeToken is because we didn't really get it from
-                // the server. In your case, you will have gotten it from the server the first time
-                // and therefore, it's a real token.
-
-                Log.d("bomoh", "BiometricLogin:: Success")
-                val savedEmail = sharedPref.getString("email", "")
-
-                val intent = Intent(this.requireContext(), MainActivity::class.java)
-                intent.putExtra("email", savedEmail)
-                startActivity(intent)
-                requireActivity().finish()
-            }
-        }
+        val intent = Intent(this.requireContext(), MainActivity::class.java)
+        intent.putExtra("email", savedEmail)
+        startActivity(intent)
+        requireActivity().finish()
     }
 
     private fun biometricFailed() {

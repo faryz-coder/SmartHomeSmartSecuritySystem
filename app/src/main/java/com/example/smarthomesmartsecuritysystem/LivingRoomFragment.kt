@@ -11,8 +11,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Switch
 import androidx.appcompat.widget.SwitchCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.clubapplication.viewmodel.loginViewModel
+import com.example.smarthomesmartsecuritysystem.utils.biometric.BiometricHandler
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -27,6 +30,7 @@ import com.google.firebase.ktx.Firebase
 @SuppressLint("UseSwitchCompatOrMaterialCode")
 class LivingRoomFragment : Fragment() {
     private val database = Firebase.database
+    private lateinit var viewModel: loginViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +38,8 @@ class LivingRoomFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val root = inflater.inflate(R.layout.fragment_living_room, container, false)
+        viewModel = ViewModelProvider(requireActivity())[loginViewModel::class.java]
+
         val switch1 : Switch = root.findViewById(R.id.lr_switch1)
         val switch2 : Switch = root.findViewById(R.id.lr_switch2)
         val switch3 : Switch = root.findViewById(R.id.lr_switch3)
@@ -93,11 +99,16 @@ class LivingRoomFragment : Fragment() {
         val switch1 : Switch = view.findViewById(R.id.lr_switch1)
         val switch2 : Switch = view.findViewById(R.id.lr_switch2)
         val switch3 : Switch = view.findViewById(R.id.lr_switch3)
+        val biometric = BiometricHandler(requireContext())
 
         switch1.setOnCheckedChangeListener { _, isChecked ->
             val myRef = database.getReference("LivingRoom/switch1")
             if (isChecked) {
-                myRef.setValue(1)
+                if (viewModel.isBiometricActive) {
+                    biometric.verify(requireActivity(), myRef, switch1, 1)
+                } else {
+                    myRef.setValue(1)
+                }
             } else {
                 myRef.setValue(0)
             }
@@ -106,7 +117,11 @@ class LivingRoomFragment : Fragment() {
         switch2.setOnCheckedChangeListener { _, isChecked ->
             val myRef = database.getReference("LivingRoom/switch2")
             if (isChecked) {
-                myRef.setValue(1)
+                if (viewModel.isBiometricActive) {
+                    biometric.verify(requireActivity(), myRef, switch2, 1)
+                } else {
+                    myRef.setValue(1)
+                }
             } else {
                 myRef.setValue(0)
             }
@@ -115,7 +130,11 @@ class LivingRoomFragment : Fragment() {
         switch3.setOnCheckedChangeListener { _, isChecked ->
             val myRef = database.getReference("LivingRoom/switch3")
             if (isChecked) {
-                myRef.setValue(1)
+                if (viewModel.isBiometricActive) {
+                    biometric.verify(requireActivity(), myRef, switch3, 1)
+                } else {
+                    myRef.setValue(1)
+                }
             } else {
                 myRef.setValue(0)
             }

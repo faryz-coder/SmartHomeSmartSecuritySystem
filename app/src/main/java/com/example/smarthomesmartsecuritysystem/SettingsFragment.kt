@@ -90,14 +90,15 @@ class SettingsFragment : Fragment() {
                 BiometricPromptUtils.createBiometricPrompt(
                     requireActivity(),
                     ::encryptAndStoreServerToken,
-                    ::biometricFailed
+                    {},
+                    { biometricFailed() }
                 )
             val promptInfo = BiometricPromptUtils.createPromptInfo(requireActivity())
             biometricPrompt.authenticate(promptInfo, BiometricPrompt.CryptoObject(cipher))
         }
     }
 
-    private fun encryptAndStoreServerToken(authResult: BiometricPrompt.AuthenticationResult) {
+    private fun encryptAndStoreServerToken(authResult: BiometricPrompt.AuthenticationResult, onSuccess: () -> Unit) {
         BiometricUser.token = java.util.UUID.randomUUID().toString()
         authResult.cryptoObject?.cipher?.apply {
             BiometricUser.token?.let { token ->
