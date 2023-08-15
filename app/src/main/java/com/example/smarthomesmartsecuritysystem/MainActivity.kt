@@ -45,23 +45,19 @@ class MainActivity : AppCompatActivity() {
 
         // Check if acc blocked
         val docRef = db.collection("user").document(username.toString())
-        docRef.addSnapshotListener{ snapshot, error ->
-            if ( error != null) {
-                return@addSnapshotListener
-            }
-            if (snapshot != null && snapshot.exists()) {
-                val block = snapshot.getField<String>("block").toString()
-                if (!block.isNullOrEmpty()) {
-                    if (block == "yes") {
-                        d("bomoh", "block account")
-                        val intent = Intent(this, MainActivity2::class.java)
+
+        docRef.get().addOnSuccessListener { document ->
+            val block = document.getField<String>("block").toString()
+            if (!block.isNullOrEmpty()) {
+                if (block == "yes") {
+                    d("bomoh", "block account")
+                    val intent = Intent(this, MainActivity2::class.java)
 //                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                        startActivity(intent)
-                        finish()
-                    }
-                    val fname = snapshot.getField<String>("full name").toString()
-                    Snackbar.make(this.window.decorView.rootView, "Welcome, $fname", Snackbar.LENGTH_SHORT).show()
+                    startActivity(intent)
+                    finish()
                 }
+                val fname = document.getField<String>("full name").toString()
+                Snackbar.make(this.window.decorView.rootView, "Welcome, $fname", Snackbar.LENGTH_SHORT).show()
             }
         }
 
