@@ -14,6 +14,7 @@
         android:backgroundTint="#D3D1D1"
         android:text="Logout"
         android:textColor="#000000"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

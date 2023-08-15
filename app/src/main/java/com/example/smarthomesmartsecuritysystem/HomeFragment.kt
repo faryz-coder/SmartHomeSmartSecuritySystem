@@ -40,11 +40,5 @@ class HomeFragment : Fragment() {
         view.findViewById<Button>(R.id.btn_outsideLight).setOnClickListener {
             findNavController().navigate(R.id.action_HomeFragment_to_outsideLightFragment)
         }
-
-        view.findViewById<Button>(R.id.btn_logout).setOnClickListener {
-            val intent = Intent(context, MainActivity2::class.java)
-            startActivity(intent)
-            requireActivity().finish()
-        }
     }
 }
