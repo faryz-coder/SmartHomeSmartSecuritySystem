@@ -33,12 +33,7 @@
         android:id="@+id/LivingRoomFragment"
         android:name="com.example.smarthomesmartsecuritysystem.LivingRoomFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_living_room">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/HomeFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_living_room"/>
     <fragment
         android:id="@+id/RoomOneFragment"
         android:name="com.example.smarthomesmartsecuritysystem.RoomOneFragment"

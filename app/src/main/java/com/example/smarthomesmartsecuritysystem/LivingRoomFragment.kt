@@ -3,26 +3,21 @@ package com.example.smarthomesmartsecuritysystem
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log.d
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.Switch
-import androidx.appcompat.widget.SwitchCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.clubapplication.viewmodel.loginViewModel
 import com.example.smarthomesmartsecuritysystem.utils.biometric.BiometricHandler
-import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import java.lang.IllegalStateException
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -31,7 +26,7 @@ import com.google.firebase.ktx.Firebase
 class LivingRoomFragment : Fragment() {
     private val database = Firebase.database
     private lateinit var viewModel: loginViewModel
-
+    private var done : Boolean = false
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -82,6 +77,7 @@ class LivingRoomFragment : Fragment() {
                 // whenever data at this location is updated.
                 val value = dataSnapshot.getValue<Int>()
                 switch3.isChecked = value == 1
+                done = true
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -104,8 +100,12 @@ class LivingRoomFragment : Fragment() {
         switch1.setOnCheckedChangeListener { _, isChecked ->
             val myRef = database.getReference("LivingRoom/switch1")
             if (isChecked) {
-                if (viewModel.isBiometricActive) {
-                    biometric.verify(requireActivity(), myRef, switch1, 1)
+                if (viewModel.isBiometricActive && done) {
+                    try {
+                        biometric.verify(requireActivity(), myRef, switch1, 1)
+                    } catch (e: IllegalStateException) {
+                        d("bomoh", "IllegalStateException")
+                    }
                 } else {
                     myRef.setValue(1)
                 }
@@ -117,8 +117,12 @@ class LivingRoomFragment : Fragment() {
         switch2.setOnCheckedChangeListener { _, isChecked ->
             val myRef = database.getReference("LivingRoom/switch2")
             if (isChecked) {
-                if (viewModel.isBiometricActive) {
-                    biometric.verify(requireActivity(), myRef, switch2, 1)
+                if (viewModel.isBiometricActive && done) {
+                    try {
+                        biometric.verify(requireActivity(), myRef, switch2, 1)
+                    } catch (e: IllegalStateException) {
+                        d("bomoh", "IllegalStateException")
+                    }
                 } else {
                     myRef.setValue(1)
                 }
@@ -130,8 +134,12 @@ class LivingRoomFragment : Fragment() {
         switch3.setOnCheckedChangeListener { _, isChecked ->
             val myRef = database.getReference("LivingRoom/switch3")
             if (isChecked) {
-                if (viewModel.isBiometricActive) {
-                    biometric.verify(requireActivity(), myRef, switch3, 1)
+                if (viewModel.isBiometricActive && done) {
+                    try {
+                        biometric.verify(requireActivity(), myRef, switch3, 1)
+                    } catch (e: IllegalStateException) {
+                        d("bomoh", "IllegalStateException")
+                    }
                 } else {
                     myRef.setValue(1)
                 }

@@ -19,11 +19,13 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import java.lang.IllegalStateException
 
 @SuppressLint("UseSwitchCompatOrMaterialCode")
 class RoomOneFragment : Fragment() {
     val database = Firebase.database
     private lateinit var viewModel: loginViewModel
+    private var done : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +67,7 @@ class RoomOneFragment : Fragment() {
                 val value = dataSnapshot.getValue<Int>()
                 d("bomoh", "value $value")
                 switch2.isChecked = value == 1
+                done = true
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -87,8 +90,12 @@ class RoomOneFragment : Fragment() {
         switch1.setOnCheckedChangeListener { _, isChecked ->
             val myRef = database.getReference("RoomOne/switch1")
             if (isChecked) {
-                if (viewModel.isBiometricActive) {
-                    biometric.verify(requireActivity(), myRef, switch1, 1)
+                if (viewModel.isBiometricActive && done) {
+                    try {
+                        biometric.verify(requireActivity(), myRef, switch1, 1)
+                    } catch (e: IllegalStateException) {
+                        d("bomoh", "IllegalStateException")
+                    }
                 } else {
                     myRef.setValue(1)
                 }
@@ -100,8 +107,12 @@ class RoomOneFragment : Fragment() {
         switch2.setOnCheckedChangeListener { _, isChecked ->
             val myRef = database.getReference("RoomOne/switch2")
             if (isChecked) {
-                if (viewModel.isBiometricActive) {
-                    biometric.verify(requireActivity(), myRef, switch2, 1)
+                if (viewModel.isBiometricActive && done) {
+                    try {
+                        biometric.verify(requireActivity(), myRef, switch2, 1)
+                    } catch (e: IllegalStateException) {
+                        d("bomoh", "IllegalStateException")
+                    }
                 } else {
                     myRef.setValue(1)
                 }
