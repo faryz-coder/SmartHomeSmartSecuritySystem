@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.sharedPreferenceData.observe(this) { newValue ->
             viewModel.isBiometricActive = newValue
+            d("bomoh", "isBiometricActive :: $newValue")
         }
 
         // Check if acc blocked

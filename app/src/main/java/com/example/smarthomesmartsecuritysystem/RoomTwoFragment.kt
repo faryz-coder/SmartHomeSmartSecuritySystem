@@ -37,6 +37,7 @@ class RoomTwoFragment : Fragment() {
         // Inflate the layout for this fragment
         val root = inflater.inflate(R.layout.fragment_room_two, container, false)
         viewModel = ViewModelProvider(requireActivity())[loginViewModel::class.java]
+        done = false
 
         val switch1 : Switch = root.findViewById(R.id.r2_switch1)
         val switch2 : Switch = root.findViewById(R.id.r2_switch2)
@@ -49,7 +50,12 @@ class RoomTwoFragment : Fragment() {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 val value = dataSnapshot.getValue<Int>()
-                switch1.isChecked = value == 1
+                if (switch1.isChecked != (value == 1)) {
+                    done = false
+                    switch1.isChecked = value == 1
+                } else {
+                    done = true
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -63,8 +69,12 @@ class RoomTwoFragment : Fragment() {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 val value = dataSnapshot.getValue<Int>()
-                switch2.isChecked = value == 1
-                done = true
+                if (switch2.isChecked != (value == 1)) {
+                    done = false
+                    switch2.isChecked = value == 1
+                } else {
+                    done = true
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -96,6 +106,7 @@ class RoomTwoFragment : Fragment() {
             } else {
                 myRef.setValue(0)
             }
+            done = true
         }
 
         switch2.setOnCheckedChangeListener { _, isChecked ->
@@ -113,6 +124,7 @@ class RoomTwoFragment : Fragment() {
             } else {
                 myRef.setValue(0)
             }
+            done = true
         }
     }
 }

@@ -34,6 +34,7 @@ class LivingRoomFragment : Fragment() {
         // Inflate the layout for this fragment
         val root = inflater.inflate(R.layout.fragment_living_room, container, false)
         viewModel = ViewModelProvider(requireActivity())[loginViewModel::class.java]
+        done = false
 
         val switch1 : Switch = root.findViewById(R.id.lr_switch1)
         val switch2 : Switch = root.findViewById(R.id.lr_switch2)
@@ -48,7 +49,12 @@ class LivingRoomFragment : Fragment() {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 val value = dataSnapshot.getValue<Int>()
-                switch1.isChecked = value == 1
+                if (switch1.isChecked != (value == 1)) {
+                    done = false
+                    switch1.isChecked = value == 1
+                } else {
+                    done = true
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -62,7 +68,12 @@ class LivingRoomFragment : Fragment() {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 val value = dataSnapshot.getValue<Int>()
-                switch2.isChecked = value == 1
+                if (switch2.isChecked != (value == 1)) {
+                    done = false
+                    switch2.isChecked = value == 1
+                } else {
+                    done = true
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -76,8 +87,12 @@ class LivingRoomFragment : Fragment() {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 val value = dataSnapshot.getValue<Int>()
-                switch3.isChecked = value == 1
-                done = true
+                if (switch3.isChecked != (value == 1)) {
+                    done = false
+                    switch3.isChecked = value == 1
+                } else {
+                    done = true
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -98,6 +113,7 @@ class LivingRoomFragment : Fragment() {
         val biometric = BiometricHandler(requireContext())
 
         switch1.setOnCheckedChangeListener { _, isChecked ->
+            d("bomoh", "viewModel.isBiometricActive ${viewModel.isBiometricActive} :: $done")
             val myRef = database.getReference("LivingRoom/switch1")
             if (isChecked) {
                 if (viewModel.isBiometricActive && done) {
@@ -112,6 +128,7 @@ class LivingRoomFragment : Fragment() {
             } else {
                 myRef.setValue(0)
             }
+            done = true
         }
 
         switch2.setOnCheckedChangeListener { _, isChecked ->
@@ -129,6 +146,7 @@ class LivingRoomFragment : Fragment() {
             } else {
                 myRef.setValue(0)
             }
+            done = true
         }
 
         switch3.setOnCheckedChangeListener { _, isChecked ->
@@ -146,6 +164,7 @@ class LivingRoomFragment : Fragment() {
             } else {
                 myRef.setValue(0)
             }
+            done = true
         }
     }
 }

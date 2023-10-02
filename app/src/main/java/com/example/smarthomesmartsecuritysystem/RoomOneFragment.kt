@@ -38,6 +38,7 @@ class RoomOneFragment : Fragment() {
         // Inflate the layout for this fragment
         val root = inflater.inflate(R.layout.fragment_room_one, container, false)
         viewModel = ViewModelProvider(requireActivity())[loginViewModel::class.java]
+        done = false
 
         val switch1 : Switch = root.findViewById(R.id.r1_switch1)
         val switch2 : Switch = root.findViewById(R.id.r1_switch2)
@@ -51,7 +52,12 @@ class RoomOneFragment : Fragment() {
                 // whenever data at this location is updated.
                 val value = dataSnapshot.getValue<Int>()
                 d("bomoh", "value $value")
-                switch1.isChecked = value == 1
+                if (switch2.isChecked != (value == 1)) {
+                    done = false
+                    switch1.isChecked = value == 1
+                } else {
+                    done = true
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -66,8 +72,12 @@ class RoomOneFragment : Fragment() {
                 // whenever data at this location is updated.
                 val value = dataSnapshot.getValue<Int>()
                 d("bomoh", "value $value")
-                switch2.isChecked = value == 1
-                done = true
+                if (switch2.isChecked != (value == 1)) {
+                    done = false
+                    switch2.isChecked = value == 1
+                } else {
+                    done = true
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -89,6 +99,7 @@ class RoomOneFragment : Fragment() {
 
         switch1.setOnCheckedChangeListener { _, isChecked ->
             val myRef = database.getReference("RoomOne/switch1")
+            d("bomoh", "RoomOneFragment onViewCreated ${viewModel.isBiometricActive} :: $done")
             if (isChecked) {
                 if (viewModel.isBiometricActive && done) {
                     try {
@@ -102,6 +113,7 @@ class RoomOneFragment : Fragment() {
             } else {
                 myRef.setValue(0)
             }
+            done = true
         }
 
         switch2.setOnCheckedChangeListener { _, isChecked ->
@@ -119,6 +131,7 @@ class RoomOneFragment : Fragment() {
             } else {
                 myRef.setValue(0)
             }
+            done = true
         }
     }
 }
