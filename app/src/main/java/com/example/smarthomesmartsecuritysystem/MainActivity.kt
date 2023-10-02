@@ -10,6 +10,7 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -71,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                     finish()
                 }
                 val fname = document.getField<String>("full name").toString()
+                viewModel.updateName(fname)
                 Snackbar.make(this.window.decorView.rootView, "Welcome, $fname", Snackbar.LENGTH_SHORT).show()
             }
         }
