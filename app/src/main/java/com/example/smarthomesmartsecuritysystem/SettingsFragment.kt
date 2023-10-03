@@ -18,6 +18,7 @@ import com.example.smarthomesmartsecuritysystem.utils.biometric.BiometricUser
 import com.example.smarthomesmartsecuritysystem.utils.biometric.CIPHERTEXT_WRAPPER
 import com.example.smarthomesmartsecuritysystem.utils.biometric.CryptographyManager
 import com.example.smarthomesmartsecuritysystem.utils.biometric.SHARED_PREFS_FILENAME
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
@@ -95,6 +96,10 @@ class SettingsFragment : Fragment() {
                 )
             val promptInfo = BiometricPromptUtils.createPromptInfo(requireActivity())
             biometricPrompt.authenticate(promptInfo, BiometricPrompt.CryptoObject(cipher))
+        } else {
+            biometricSwitch.isChecked = false
+            biometricSwitch.text = "OFF"
+            Snackbar.make(requireView(), "No Fingerprint Registered", Snackbar.LENGTH_SHORT).show()
         }
     }
 
