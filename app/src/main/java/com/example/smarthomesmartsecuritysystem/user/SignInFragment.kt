@@ -150,7 +150,9 @@ class SignInFragment : Fragment() {
     // Restart the current activity
     private fun restartActivity() {
         val intent = this.activity?.intent
-        startActivity(intent)
+        if (intent != null) {
+            startActivity(intent)
+        }
         this.activity?.finish()
     }
 
